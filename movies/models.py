@@ -7,4 +7,7 @@ class Movie(models.Model):
     budget = models.IntegerField()
     synopsis = models.TextField(max_length=1000)
     user = models.ForeignKey('users.User', on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('title', 'release_date',)
     
