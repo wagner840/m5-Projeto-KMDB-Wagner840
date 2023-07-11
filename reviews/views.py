@@ -14,10 +14,13 @@ class ReviewView(generics.ListCreateAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        return Review.objects.filter(user=user)
-
+        if user.is_authenticated:
+            return Review.objects.filter(user=user)
+        else:
+            return Review.objects.all()
+        
     def perform_create(self, serializer):
-        movie_id = self.kwargs["pk"]
+        movie_id = self.request.data.get('movie')
         movie = get_object_or_404(Movie, pk=movie_id)
         user = self.request.user
         if user.is_superuser:
@@ -25,3 +28,21 @@ class ReviewView(generics.ListCreateAPIView):
         if Review.objects.filter(user=user, movie=movie).exists():
             raise serializers.ValidationError("You have already reviewed this movie.")
         serializer.save(user=user, movie=movie)
+
+
+class ReviewDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsCriticOrReadOnly]
+
+    def perform_update(self, serializer):
+        serializer.save()
+
+    def perform_destroy(self, instance):
+        instance.delete()
+    
+    def get_object(self):
+        obj = super().get_object()
+        self.check_object_permissions(self.request, obj)
+        return obj

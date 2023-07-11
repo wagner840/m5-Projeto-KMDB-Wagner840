@@ -1,7 +1,7 @@
 from rest_framework import generics
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from users.models import User
-from users.permissions import IsAdminOrReadOnly
+from users.permissions import IsAdminOrReadOnly, IsSelfOrAdmin
 from users.serializers import UserSerializer
 from rest_framework.permissions import AllowAny
 
@@ -16,7 +16,7 @@ class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAdminOrReadOnly]
+    permission_classes = [IsSelfOrAdmin]
 
     def perform_update(self, serializer):
         serializer.save()
