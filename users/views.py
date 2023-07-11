@@ -3,12 +3,13 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from users.models import User
 from users.permissions import IsAdminOrReadOnly
 from users.serializers import UserSerializer
+from rest_framework.permissions import AllowAny
 
 
 class UserView(generics.ListCreateAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
-    permission_classes = [IsAdminOrReadOnly]
+    permission_classes = [AllowAny]
 
 
 class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
