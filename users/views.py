@@ -1,15 +1,14 @@
 from rest_framework import generics
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from users.models import User
-from users.permissions import IsAdminOrReadOnly, IsSelfOrAdmin
+from users.permissions import IsPostOrIsAdmin, IsSelfOrAdmin
 from users.serializers import UserSerializer
-from rest_framework.permissions import AllowAny
 
 
 class UserView(generics.ListCreateAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
-    permission_classes = [AllowAny]
+    permission_classes = [IsPostOrIsAdmin]
 
 
 class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -28,4 +27,3 @@ class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
         obj = super().get_object()
         self.check_object_permissions(self.request, obj)
         return obj
-

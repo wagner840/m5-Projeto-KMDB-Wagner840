@@ -5,7 +5,7 @@ from reviews.models import Review
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
-        fields = ['id','movie','rating', 'review_text', 'spoiler']
+        fields = ['id','rating', 'review_text', 'spoiler']
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
