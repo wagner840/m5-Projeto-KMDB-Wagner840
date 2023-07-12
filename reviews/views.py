@@ -54,6 +54,6 @@ class UserReviewListView(generics.ListAPIView):
 
     def get_queryset(self):
         user_id = self.kwargs['user_id']
-        if self.request.user.id != user_id and not self.request.user.is_superuser:
+        if self.request.user.id != user_id and self.request.user.is_superuser:
             raise PermissionDenied("You do not have permission to access another user's reviews.")
         return Review.objects.filter(user_id=user_id)
