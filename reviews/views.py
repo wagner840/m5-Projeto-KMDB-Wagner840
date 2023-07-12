@@ -1,6 +1,6 @@
 from rest_framework import generics, serializers
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from users.permissions import IsCriticOrReadOnly, IsSelfOrAdminReview
+from users.permissions import IsCriticOrReadOnly, IsOwnerOrReadOnly, IsSelfOrAdminReview
 from .models import Review
 from .serializers import ReviewSerializer
 from movies.models import Movie
@@ -31,7 +31,7 @@ class ReviewView(generics.ListCreateAPIView):
 class ReviewDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ReviewSerializer
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsCriticOrReadOnly]
+    permission_classes = [IsOwnerOrReadOnly]
 
     def perform_update(self, serializer):
         serializer.save()
@@ -54,9 +54,6 @@ class UserReviewListView(generics.ListAPIView):
 
     def get_queryset(self):
         user_id = self.kwargs['user_id']
-        if self.request.user.id != user_id:
-            if self.request.user.is_superuser:
-                raise PermissionDenied("Administrators do not have permission to access another user's reviews.")
-            else:
-                raise PermissionDenied("You do not have permission to access another user's reviews.")
+        if self.request.user.id != user_id and not self.request.user.is_superuser:
+            raise PermissionDenied("You do not have permission to access another user's reviews.")
         return Review.objects.filter(user_id=user_id)
