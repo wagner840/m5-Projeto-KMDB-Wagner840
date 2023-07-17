@@ -1,40 +1,27 @@
 # m5-Projeto-KMDB-Wagner840
 Projeto BackEnd Django - Aplicação de Critico de cinema. 
 
-## Instalação dos pacotes de teste
+Projeto KMDB
+O Projeto KMDB é uma aplicação de banco de dados de filmes completa, construída com Django e Python. Este projeto apresenta gerenciamento de filmes, usuários e revisões.
 
-- Verifique se os pacotes `pytest` e/ou `pytest-testdox` estão instalados globalmente em seu sistema:
-```shell
-pip list
-```
-- Caso seja listado o `pytest` e/ou `pytest-testdox` e/ou `pytest-django` em seu ambiente global, utilize os seguintes comando para desinstalá-los globalmente:
-```shell
-pip uninstall pytest
-```
+Endpoints
+Aqui estão alguns dos principais endpoints que você pode usar para interagir com a API:
 
-```shell
-pip uninstall pytest-testdox
-```
-
-```shell
-pip uninstall pytest-django
-```
-
-A partir disso, prossiga com os passos:
-
-1. Crie seu ambiente virtual:
-```bash
-python -m venv venv
-```
-
-2. Ative seu venv:
-```bash
-# Linux:
-source venv/bin/activate
-
-# Windows (Powershell):
-.\venv\Scripts\activate
-
-# Windows (Git Bash):
-source venv/Scripts/activate
-```
+Filmes
+GET /movies/: Retorna uma lista de todos os filmes.
+POST /movies/: Cria um novo filme. Requer um corpo de solicitação JSON com os detalhes do filme.
+GET /movies/{id}/: Retorna os detalhes de um filme específico.
+PUT /movies/{id}/: Atualiza os detalhes de um filme específico. Requer um corpo de solicitação JSON com os novos detalhes do filme.
+DELETE /movies/{id}/: Exclui um filme específico.
+Usuários
+GET /users/: Retorna uma lista de todos os usuários.
+POST /users/: Cria um novo usuário. Requer um corpo de solicitação JSON com os detalhes do usuário.
+GET /users/{id}/: Retorna os detalhes de um usuário específico.
+PUT /users/{id}/: Atualiza os detalhes de um usuário específico. Requer um corpo de solicitação JSON com os novos detalhes do usuário.
+DELETE /users/{id}/: Exclui um usuário específico.
+Revisões
+GET /movies/{movie_id}/reviews/: Retorna uma lista de todas as revisões para um filme específico.
+POST /movies/{movie_id}/reviews/: Cria uma nova revisão para um filme específico. Requer um corpo de solicitação JSON com os detalhes da revisão.
+GET /movies/{movie_id}/reviews/{review_id}/: Retorna os detalhes de uma revisão específica.
+PUT /movies/{movie_id}/reviews/{review_id}/: Atualiza os detalhes de uma revisão específica. Requer um corpo de solicitação JSON com os novos detalhes da revisão.
+DELETE /movies/{movie_id}/reviews/{review_id}/: Exclui uma revisão específica.
